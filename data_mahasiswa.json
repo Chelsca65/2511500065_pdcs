@@ -1,14 +1,20 @@
 [
-  {
-    "id": 1,
-    "nim": "202401001",
-    "nama": "Budi Santoso",
-    "jurusan": "Teknik Informatika"
-  },
-  {
-    "id": 2,
-    "nim": "202401002",
-    "nama": "Siti Aminah",
-    "jurusan": "Sistem Informasi"
-  }
+    {
+        "id": 1,
+        "nim": "202401001",
+        "nama": "Budi Santoso",
+        "jurusan": "Teknik Informatika"
+    },
+    {
+        "id": 2,
+        "nim": "202401002",
+        "nama": "Siti Aminah",
+        "jurusan": "Sistem Informasi"
+    },
+    {
+        "id": 3,
+        "nim": "2511500065",
+        "nama": "Chelsea Clarisa",
+        "jurusan": "Teknik Informatika"
+    }
 ]
