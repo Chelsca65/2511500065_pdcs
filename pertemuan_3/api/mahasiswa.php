@@ -14,30 +14,34 @@ if (isset($_GET['id'])) {
         j.nama_jurusan AS jurusan 
         FROM mahasiswa m 
         LEFT JOIN jurusan j ON m.jurusan_id = j.id 
-        WHERE m.id = '$id'" ;
+        WHERE m.id = '$id'";
 
-        $r = mysqli_query($koneksi, $q);
+    $r = mysqli_query($koneksi, $q);
 
-        if (!$r) {
-            sendResponse(
-                false,
-                "query gagal: " . mysqli_error($koneksi),
-                null,
-                500
-            );
-        }
+    if (!$r) {
+        sendResponse(
+            false,
+            "query gagal: " . mysqli_error($koneksi),
+            null,
+            500
+        );
+    }
 
     $data = mysqli_fetch_assoc($r);
 
     if (!$data) {
-        sendResponse(false, "mahasisiswa tidak ditemukan",
-        null, 404);
+        sendResponse(
+            false,
+            "mahasisiswa tidak ditemukan",
+            null,
+            404
+        );
     }
 
     sendResponse(true, "berhasil", $data, 200);
-    }
+}
 
-    // SEARCH
+// SEARCH
 
 if (isset($_GET['search'])) {
     $search = $_GET['search'];
@@ -53,16 +57,16 @@ if (isset($_GET['search'])) {
             OR m.nim LIKE '%$search%'
             ORDER BY m.id DESC";
 
-        $r = mysqli_query($koneksi, $q);
+    $r = mysqli_query($koneksi, $q);
 
-        if (!$r) {
-            sendResponse(
-                false,
-                "query gagal: " . mysqli_error($koneksi),
-                null,
-                500
-            );
-        }
+    if (!$r) {
+        sendResponse(
+            false,
+            "query gagal: " . mysqli_error($koneksi),
+            null,
+            500
+        );
+    }
 
     $data = [];
 
@@ -71,23 +75,24 @@ if (isset($_GET['search'])) {
     }
 
     sendResponse(
-        true, 
-        "berhasil", 
-        $data, 
-        200);
-    }
+        true,
+        "berhasil",
+        $data,
+        200
+    );
+}
 
-    //PAGINATION
+//PAGINATION
 
-    if (isset($_GET['page']) || isset($_GET['limit'])) {
+if (isset($_GET['page']) || isset($_GET['limit'])) {
 
     $page = isset($_GET['page'])
-    ? (int) $_GET['page']
-    : 1;
+        ? (int) $_GET['page']
+        : 1;
 
     $limit = isset($_GET['limit'])
-    ? (int) $_GET['limit']
-    : 10;
+        ? (int) $_GET['limit']
+        : 10;
 
     if ($page < 1) {
         $page = 1;
@@ -109,16 +114,16 @@ if (isset($_GET['search'])) {
             ORDER BY m.id DESC
             LIMIT $limit OFFSET $offset";
 
-        $r = mysqli_query($koneksi, $q);
+    $r = mysqli_query($koneksi, $q);
 
-        if (!$r) {
-            sendResponse(
-                false,
-                "query gagal: " . mysqli_error($koneksi),
-                null,
-                500
-            );
-        }
+    if (!$r) {
+        sendResponse(
+            false,
+            "query gagal: " . mysqli_error($koneksi),
+            null,
+            500
+        );
+    }
 
     $data = [];
 
@@ -127,10 +132,27 @@ if (isset($_GET['search'])) {
     }
 
     sendResponse(
-        true, 
-        "berhasil", 
-        $data, 
-        200);
-    }
+        true,
+        "berhasil",
+        $data,
+        200
+    );
+}
 
+// get ALL
+$q = "SELECT m.id, m.nama, m.nim, j.nama_jurusan AS jurusan
+      FROM mahasiswa m
+      LEFT JOIN jurusan j ON m.jurusan_id = j.id
+      ORDER BY m.id DESC";
 
+$r = mysqli_query($koneksi, $q);
+
+if (!$r) sendResponse(false, "query gagal: " . mysqli_error($koneksi), null, 500);
+
+$data = [];
+while ($row = mysqli_fetch_assoc($r)) {
+    $data[] = $row;
+}
+
+// kirim response
+sendResponse(true, "berhasil", $data, 200);
